@@ -1,0 +1,13 @@
+{
+  "require": {
+    "electrolinux/phpquery": "^0.9.6"
+  },
+  "require-dev": {
+    "guzzlehttp/guzzle": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "carono\\production\\": ""
+    }
+  }
+}
