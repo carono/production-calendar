@@ -37,7 +37,7 @@ class Calendar
      */
     public static function isWorking($date, $weekend = [6, 0])
     {
-        return !self::isHoliday($date) && !self::isWeekend($date, $weekend);
+        return self::isPreHoliday($date) || (!self::isHoliday($date) && !self::isWeekend($date, $weekend));
     }
 
     protected function findDateInArray($date, $array)
