@@ -8,7 +8,6 @@
 |Calendar::isWorking('2016-05-09')|`false`|9мая нерабочий день
 |Calendar::isHoliday('2016-05-09')|`true`|9мая это праздник
 |Calendar::find('2016-05-07')->working()->format()|2016-05-10|Рабочий день с 7мая (включительно) это 10мая
-|Calendar::find('2016-12-31')->next()->isHoliday()|`false`|Рабочий день с 7мая (включительно) это 10мая
 |Calendar::isPreHoliday('2016-02-20')|`true`|20 февраля предпраздничный день (укороченный)
 |Calendar::find('2016-12-31')->next()->isWorking()|`false`|1 января нерабочий день
 
