@@ -8,7 +8,12 @@ $uri = "http://www.consultant.ru/law/ref/calendar/proizvodstvennye/$year/";
 $response = $client->get($uri);
 $content = phpQuery::newDocument($response->getBody()->getContents());
 $dates = file_exists('holidays.json') ? json_decode(file_get_contents('holidays.json'), true) : [];
-$dates[$year] = [];
+$dates[$year] = [
+    'holidays'    => [],
+    'works'       => [],
+    'preholidays' => [],
+    'weekend'     => []
+];
 $m = 0;
 foreach ($content->find('.cal') as $table) {
     $query = pq($table);
@@ -16,12 +21,15 @@ foreach ($content->find('.cal') as $table) {
     foreach ($query->find('td.work,td.preholiday,td.weekend') as $td) {
         $month = str_pad($m, 2, '0', STR_PAD_LEFT);
         $day = str_pad(preg_replace('/[^\d]/', '', pq($td)->text()), 2, '0', STR_PAD_LEFT);
-        $idx = pq($td)->hasClass('weekend') ? 'holiday' : 'work';
+        $idx = pq($td)->hasClass('weekend') ? 'holidays' : 'works';
         $date = $year . '-' . $month . '-' . $day;
-        if ($idx == 'holiday' && in_array(date('w', strtotime($date)), [6, 0])) {
+        if ($idx == 'holidays' && in_array(date('w', strtotime($date)), [6, 0])) {
             $idx = 'weekend';
         }
         $dates[$year][$idx][] = $date;
+        if (pq($td)->hasClass('preholiday')) {
+            $dates[$year]['preholidays'][] = $date;
+        }
     }
 }
 file_put_contents("holidays.json", json_encode($dates));
