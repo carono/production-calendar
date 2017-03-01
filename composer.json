@@ -1,13 +1,21 @@
 {
-  "require": {
-    "electrolinux/phpquery": "^0.9.6"
-  },
-  "require-dev": {
-    "guzzlehttp/guzzle": "^6.2"
-  },
+  "name": "carono/production-calendar",
+  "description": "Production calendar of Russian Federation",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "carono",
+      "email": "info@carono.ru"
+    }
+  ],
+  "require": {},
   "autoload": {
     "psr-4": {
       "carono\\production\\": ""
     }
+  },
+  "require-dev": {
+    "electrolinux/phpquery": "^0.9.6",
+    "guzzlehttp/guzzle": "^6.2"
   }
 }
