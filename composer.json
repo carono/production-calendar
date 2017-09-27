@@ -4,8 +4,9 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "carono",
-      "email": "info@carono.ru"
+      "name": "Aleksandr Kasyanov",
+      "email": "info@carono.ru",
+      "homepage": "http://carono.ru"
     }
   ],
   "require": {},
