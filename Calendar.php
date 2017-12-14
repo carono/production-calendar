@@ -2,7 +2,11 @@
 
 namespace carono\production;
 
-
+/**
+ * Class Calendar
+ *
+ * @package carono\production
+ */
 class Calendar
 {
     public $format = 'Y-m-d';
@@ -18,7 +22,7 @@ class Calendar
         return $this->date()->format($this->format);
     }
 
-    public function date()
+    public static function date()
     {
         return self::$date;
     }
@@ -40,7 +44,7 @@ class Calendar
         return self::isPreHoliday($date) || (!self::isHoliday($date) && !self::isWeekend($date, $weekend));
     }
 
-    protected function findDateInArray($date, $array)
+    protected static function findDateInArray($date, $array)
     {
         $date = self::prepareDate($date);
         return in_array($date->format('Y-m-d'), $array);
@@ -193,7 +197,7 @@ class Calendar
      * @param string|\DateTime $date
      * @return \DateTime
      */
-    protected function prepareDate($date)
+    protected static function prepareDate($date)
     {
         if (is_null($date) && self::$date) {
             $date = self::$date;
