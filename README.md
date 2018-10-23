@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/carono/production-calendar/license)](https://packagist.org/packages/carono/production-calendar)
 
 # Производственный календарь
-==========================
+
 Список праздников в соответствии с производственным календарём Российской Федерации 2012-2018гг  
 Данные предоставлены сайтом http://www.consultant.ru/law/ref/calendar/proizvodstvennye
 
