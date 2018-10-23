@@ -1,4 +1,9 @@
-Производственный календарь
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/carono/production-calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/carono/production-calendar/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/carono/production-calendar/v/stable)](https://packagist.org/packages/carono/production-calendar)
+[![Total Downloads](https://poser.pugx.org/carono/production-calendar/downloads)](https://packagist.org/packages/carono/production-calendar)
+[![License](https://poser.pugx.org/carono/production-calendar/license)](https://packagist.org/packages/carono/production-calendar)
+
+# Производственный календарь
 ==========================
 Список праздников в соответствии с производственным календарём Российской Федерации 2012-2018гг  
 Данные предоставлены сайтом http://www.consultant.ru/law/ref/calendar/proizvodstvennye
@@ -15,4 +20,4 @@
 `isPreHoliday()` - предпраздничный день, может выпасть на выходной, который считается рабочим, поэтому isWorking вернёт `true`, а isHoliday - `false`  
 `working()`, `holiday()`, `preHoliday()` - функции будут перебирать все даты день за днём, пока не найдут рабочий, нерабочий или предпраздничный день
 
-`parser.php` - парсер для www.consultant.ru
+Массив всех данных можно найти в json файле - **holidays.json**
