@@ -1,19 +1,30 @@
 {
-  "name": "carono/production-calendar",
+  "name": "webmasterskaya/production-calendar",
   "description": "Production calendar of Russian Federation",
-  "license": "MIT",
+  "license": "(MIT or GPL-3.0-or-later)",
   "authors": [
     {
       "name": "Aleksandr Kasyanov",
       "email": "info@carono.ru",
       "homepage": "http://carono.ru"
+    },
+    {
+      "name": "Artem Vasilev",
+      "email": "dev@webmasterskaya.xyz",
+      "homepage": "https://webmasterskaya.xyz/"
     }
   ],
   "require": {},
   "autoload": {
     "psr-4": {
-      "carono\\production\\": ""
+      "webmasterskaya\\production\\": ""
     }
+  },
+  "archive": {
+    "exclude": [
+      ".gitignore",
+      "test.php"
+    ]
   },
   "require-dev": {
     "electrolinux/phpquery": "^0.9.6",
