@@ -12,7 +12,8 @@ $dates[$year] = [
     'holidays' => [],
     'works' => [],
     'preholidays' => [],
-    'weekend' => []
+    'weekend' => [],
+    'nowork' => [],
 ];
 $m = 0;
 foreach ($content->find('.cal') as $table) {
@@ -24,13 +25,16 @@ foreach ($content->find('.cal') as $table) {
         if (pq($td)->hasClass('inactively')) {
             continue;
         }
-        $date = $year . '-' . $month . '-' . $day;
+        $date = $year.'-'.$month.'-'.$day;
         $idx = 'works';
         if (pq($td)->hasClass('holiday')) {
             $idx = 'holidays';
         }
         if (in_array(date('w', strtotime($date)), ['6', '0'], true)) {
             $idx = 'weekend';
+        }
+        if (pq($td)->hasClass('nowork')) {
+            $idx = 'nowork';
         }
 
         $dates[$year][$idx][] = $date;
