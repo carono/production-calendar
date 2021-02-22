@@ -24,12 +24,12 @@ class Calendar
 
     public static function date()
     {
-        return self::$date;
+        return static::$date;
     }
 
     public function timestamp()
     {
-        return self::date()->getTimestamp();
+        return static::date()->getTimestamp();
     }
 
     /**
@@ -41,19 +41,19 @@ class Calendar
      */
     public static function isWorking($date, $weekend = [6, 0])
     {
-        return self::isPreHoliday($date) || (!self::isHoliday($date) && !self::isWeekend($date, $weekend));
+        return static::isPreHoliday($date) || (!static::isHoliday($date) && !static::isWeekend($date, $weekend));
     }
 
     protected static function findDateInArray($date, $array)
     {
-        $date = self::prepareDate($date);
+        $date = static::prepareDate($date);
         return in_array($date->format('Y-m-d'), $array);
 
     }
 
     public static function isPreHoliday($date)
     {
-        return self::findDateInArray($date, self::getPreHolidaysByYear($date));
+        return static::findDateInArray($date, static::getPreHolidaysByYear($date));
     }
 
     /**
@@ -62,12 +62,12 @@ class Calendar
      */
     public static function isHoliday($date = null)
     {
-        return (self::isWeekend($date) && !self::isPreHoliday($date)) || self::findDateInArray($date, self::getHolidaysByYear($date));
+        return (static::isWeekend($date) && !static::isPreHoliday($date)) || static::findDateInArray($date, static::getHolidaysByYear($date));
     }
 
     public static function isWeekend($date, $weekend = [6, 0])
     {
-        $date = self::prepareDate($date);
+        $date = static::prepareDate($date);
         return in_array($date->format('w'), $weekend);
     }
 
@@ -78,9 +78,9 @@ class Calendar
     public static function getHolidaysByYear($year)
     {
         if (!is_numeric($year)) {
-            $year = self::prepareDate($year)->format('Y');
+            $year = static::prepareDate($year)->format('Y');
         }
-        $holidays = self::getHolidays();
+        $holidays = static::getHolidays();
         return isset($holidays[$year]['holidays']) ? $holidays[$year]['holidays'] : [];
     }
 
@@ -91,9 +91,9 @@ class Calendar
     public static function getWorkingsByYear($year)
     {
         if (!is_numeric($year)) {
-            $year = self::prepareDate($year)->format('Y');
+            $year = static::prepareDate($year)->format('Y');
         }
-        $holidays = self::getHolidays();
+        $holidays = static::getHolidays();
         return isset($holidays[$year]['workings']) ? $holidays[$year]['workings'] : [];
     }
 
@@ -104,9 +104,9 @@ class Calendar
     public static function getPreHolidaysByYear($year)
     {
         if (!is_numeric($year)) {
-            $year = self::prepareDate($year)->format('Y');
+            $year = static::prepareDate($year)->format('Y');
         }
-        $holidays = self::getHolidays();
+        $holidays = static::getHolidays();
         return isset($holidays[$year]['preholidays']) ? $holidays[$year]['preholidays'] : [];
     }
 
@@ -132,7 +132,7 @@ class Calendar
      */
     public function working()
     {
-        while (!self::isWorking(self::$date)) {
+        while (!static::isWorking(static::$date)) {
             $this->next();
         }
         return $this;
@@ -143,7 +143,7 @@ class Calendar
      */
     public function holiday()
     {
-        while (!self::isHoliday(self::$date) && self::haveData()) {
+        while (!static::isHoliday(static::$date) && static::haveData()) {
             $this->next();
         }
         return $this;
@@ -151,8 +151,8 @@ class Calendar
 
     protected static function haveData($date = null)
     {
-        $date = $date ? self::prepareDate($date) : self::date();
-        return isset(self::getHolidays()[$date->format('Y')]);
+        $date = $date ? static::prepareDate($date) : static::date();
+        return isset(static::getHolidays()[$date->format('Y')]);
 
     }
 
@@ -161,7 +161,7 @@ class Calendar
      */
     public function preHoliday()
     {
-        while (!self::isPreHoliday(self::$date) && self::haveData($this->date())) {
+        while (!static::isPreHoliday(static::$date) && static::haveData($this->date())) {
             $this->next();
         }
         return $this;
@@ -172,8 +172,22 @@ class Calendar
      */
     public function next()
     {
-        self::$date->add(new \DateInterval('P1D'));
+        static::$date->add(new \DateInterval('P1D'));
         return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function prev()
+    {
+        static::$date->sub(new \DateInterval('P1D'));
+        return $this;
+    }
+
+    public static function getInstance()
+    {
+        return static::$_instance ?: static::find();
     }
 
     /**
@@ -182,14 +196,14 @@ class Calendar
      */
     public static function find($date = null)
     {
-        self::$date = self::prepareDate($date);
-        if (self::$_instance) {
-            return self::$_instance;
+        static::$date = static::prepareDate($date);
+        if (static::$_instance) {
+            return static::$_instance;
         } else {
             $json = file_get_contents(__DIR__ . '/holidays.json');
-            self::$_instance = new self();
-            self::$holidays = json_decode($json, true);
-            return self::$_instance;
+            static::$_instance = new self();
+            static::$holidays = json_decode($json, true);
+            return static::$_instance;
         }
     }
 
@@ -199,8 +213,8 @@ class Calendar
      */
     protected static function prepareDate($date)
     {
-        if (is_null($date) && self::$date) {
-            $date = self::$date;
+        if (is_null($date) && static::$date) {
+            $date = static::$date;
         } elseif (!$date instanceof \DateTime) {
             $date = new \DateTime($date);
         }
@@ -209,10 +223,10 @@ class Calendar
 
     public static function getHolidays()
     {
-        if (!self::$_instance) {
-            self::find();
+        if (!static::$_instance) {
+            static::find();
         }
-        return self::$holidays;
+        return static::$holidays;
     }
 
     private function __construct()
