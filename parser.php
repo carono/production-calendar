@@ -1,12 +1,21 @@
 <?php
 require 'vendor/autoload.php';
 
-$client = new \GuzzleHttp\Client();
 $year = isset($argv[1]) ? $argv[1] : date('Y');
 $uri = "http://www.consultant.ru/law/ref/calendar/proizvodstvennye/$year/";
 
-$response = $client->get($uri);
-$content = phpQuery::newDocument($response->getBody()->getContents());
+$ch = curl_init($uri);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type: text/html; charset=utf-8' ]);
+curl_setopt($ch, CURLOPT_FAILONERROR, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+if(($result = curl_exec($ch)) === false)
+{
+    throw new \Exception(curl_error($ch), curl_errno($ch));
+}
+
+$content = phpQuery::newDocument($result);
 $dates = file_exists('holidays.json') ? json_decode(file_get_contents('holidays.json'), true) : [];
 $dates[$year] = [
     'holidays' => [],
