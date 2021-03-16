@@ -190,6 +190,17 @@ class Calendar
     /**
      * @return $this
      */
+    public function noWorking()
+    {
+        while (!static::isNoWorking(static::$date) && static::haveData($this->date())) {
+            $this->next();
+        }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function next()
     {
         static::$date->add(new \DateInterval('P1D'));
