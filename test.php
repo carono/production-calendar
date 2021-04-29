@@ -1,6 +1,6 @@
 <?php
 require 'Calendar.php';
-use webmasterskaya\production\Calendar;
+use webmasterskaya\ProductionCalendar\Calendar;
 
 $expect = [true, false, '2016-05-10', true, true, true];
 $res = [];

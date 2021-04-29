@@ -1,11 +1,11 @@
 <?php
 
-namespace webmasterskaya\production;
+namespace webmasterskaya\ProductionCalendar;
 
 /**
  * Class Calendar
  *
- * @package webmasterskaya\production
+ * @package webmasterskaya\ProductionCalendar
  */
 class Calendar
 {
@@ -131,6 +131,39 @@ class Calendar
     }
 
     /**
+     * @param   integer|string|\DateTime  $date_from
+     * @param   integer|string|\DateTime  $date_to
+     * @param   null|string  $format
+     *
+     * @return array
+     */
+    public static function getHolidaysListByInterval($date_from, $date_to, $format = null)
+    {
+        $date_from = static::prepareDate($date_from);
+        $date_to   = static::prepareDate($date_to);
+
+        if ($date_from > $date_to)
+        {
+            $date_tmp  = $date_to;
+            $date_to   = $date_from;
+            $date_from = $date_tmp;
+            unset($date_tmp);
+        }
+
+        $holidaysList = [];
+
+        $lastHoliday    = Calendar::find($date_from)->holiday();
+        $holidaysList[] = $lastHoliday->format($format);
+        while ($lastHoliday->date() <= $date_to)
+        {
+            $lastHoliday    = $lastHoliday->next()->holiday();
+            $holidaysList[] = $lastHoliday->format($format);
+        }
+
+        return $holidaysList;
+    }
+
+    /**
      * @return $this
      */
     public function day()
@@ -223,6 +256,7 @@ class Calendar
 
     /**
      * @param null|string|\DateTime $date
+     *
      * @return Calendar
      */
     public static function find($date = null)

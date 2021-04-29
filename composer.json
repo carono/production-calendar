@@ -16,11 +16,13 @@
   ],
   "require": {
     "ext-curl": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-dom": "*",
+    "ext-libxml": "*"
   },
   "autoload": {
     "psr-4": {
-      "webmasterskaya\\production\\": ""
+      "webmasterskaya\\ProductionCalendar\\": ""
     }
   },
   "archive": {
@@ -28,8 +30,5 @@
       ".gitignore",
       "test.php"
     ]
-  },
-  "require-dev": {
-    "electrolinux/phpquery": "^0.9.6"
   }
 }
