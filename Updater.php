@@ -16,16 +16,24 @@ class Updater
     public static function updateAll()
     {
         $outputPath = __DIR__.'/holidays.json';
+        $bcPath     = __DIR__ . '/holidays_bc.json';
+
         if (file_exists($outputPath)) {
+            copy($outputPath, $bcPath);
             unlink($outputPath);
         }
 
         $year = 2013;
         $cur_year = date('Y');
 
-        while ($year <= $cur_year) {
-            static::update($year);
-            $year++;
+        try {
+            while ($year <= $cur_year) {
+                static::update($year);
+                $year++;
+            }
+            unlink($bcPath);
+        } catch (\Exception $e) {
+            copy($bcPath . '/holidays_bc.json', $outputPath);
         }
     }
 
@@ -67,6 +75,9 @@ class Updater
 
         if (file_exists($outputPath)) {
             $dates = json_decode(file_get_contents($outputPath), true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception(json_last_error_msg(), 'error');
+            }
         } else {
             $dates = [];
         }
@@ -121,6 +132,19 @@ class Updater
             }
         }
 
-        file_put_contents($outputPath, json_encode($dates));
+        if (
+            !empty($dates[$year]['holidays'])
+            && !empty($dates[$year]['works'])
+            && !empty($dates[$year]['preholidays'])
+            && !empty($dates[$year]['weekend'])
+        ) {
+            $dates_json = json_encode($dates);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception(json_last_error_msg(), 'error');
+            }
+
+            file_put_contents($outputPath, $dates_json);
+        }
     }
 }
