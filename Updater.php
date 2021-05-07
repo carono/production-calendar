@@ -15,12 +15,12 @@ class Updater
 {
     public static function updateAll()
     {
-        $outputPath = __DIR__ . '/holidays.json';
+        $outputPath = __DIR__.'/holidays.json';
         if (file_exists($outputPath)) {
             unlink($outputPath);
         }
 
-        $year     = 2013;
+        $year = 2013;
         $cur_year = date('Y');
 
         while ($year <= $cur_year) {
@@ -63,7 +63,7 @@ class Updater
             "//*/table[contains(concat(' ', normalize-space(@class), ' '), cal)]"
         );
 
-        $outputPath = __DIR__ . '/holidays.json';
+        $outputPath = __DIR__.'/holidays.json';
 
         if (file_exists($outputPath)) {
             $dates = json_decode(file_get_contents($outputPath), true);
@@ -78,51 +78,49 @@ class Updater
             'weekend'     => [],
             'nowork'      => [],
         ];
-        $m            = 0;
+        $m = 0;
         /** @var DOMElement $node */
         foreach ($tables_nodes as $table_node) {
-            {
-                $m++;
-                $tds_nodes = $table_node->getElementsByTagName('td');
-                /** @var DOMElement $td_node */
-                foreach ($tds_nodes as $td_node) {
-                    $month = str_pad($m, 2, '0', STR_PAD_LEFT);
+            $m++;
+            $tds_nodes = $table_node->getElementsByTagName('td');
+            /** @var DOMElement $td_node */
+            foreach ($tds_nodes as $td_node) {
+                $month = str_pad($m, 2, '0', STR_PAD_LEFT);
 
-                    $day = str_pad(
-                        preg_replace('/[\D]/', '', $td_node->textContent), 2,
-                        '0',
-                        STR_PAD_LEFT
-                    );
+                $day = str_pad(
+                    preg_replace('/[\D]/', '', $td_node->textContent), 2,
+                    '0',
+                    STR_PAD_LEFT
+                );
 
-                    $td_classname = $td_node->getAttribute('class');
+                $td_classname = $td_node->getAttribute('class');
 
-                    if (strpos($td_classname, 'inactively') !== false) {
-                        continue;
-                    }
+                if (strpos($td_classname, 'inactively') !== false) {
+                    continue;
+                }
 
-                    $date = $year . '-' . $month . '-' . $day;
-                    $idx  = 'works';
-                    if (strpos($td_classname, 'holiday') !== false) {
-                        $idx = 'holidays';
-                    }
-                    if (in_array(
-                        date('w', strtotime($date)), ['6', '0'], true
-                    )
-                    ) {
-                        $idx = 'weekend';
-                    }
-                    if (strpos($td_classname, 'nowork') !== false) {
-                        $idx = 'nowork';
-                    }
+                $date = $year.'-'.$month.'-'.$day;
+                $idx = 'works';
+                if (strpos($td_classname, 'holiday') !== false) {
+                    $idx = 'holidays';
+                }
+                if (in_array(
+                    date('w', strtotime($date)), ['6', '0'], true
+                )
+                ) {
+                    $idx = 'weekend';
+                }
+                if (strpos($td_classname, 'nowork') !== false) {
+                    $idx = 'nowork';
+                }
 
-                    $dates[$year][$idx][] = $date;
-                    if (strpos($td_classname, 'preholiday') !== false) {
-                        $dates[$year]['preholidays'][] = $date;
-                    }
+                $dates[$year][$idx][] = $date;
+                if (strpos($td_classname, 'preholiday') !== false) {
+                    $dates[$year]['preholidays'][] = $date;
                 }
             }
-
-            file_put_contents($outputPath, json_encode($dates));
         }
+
+        file_put_contents($outputPath, json_encode($dates));
     }
 }
