@@ -152,7 +152,7 @@ class Calendar
 	 * @throws \Exception
 	 * @return array
 	 */
-	public static function getHolidaysByYear($year): array
+	protected static function getHolidaysByYear($year): array
 	{
 		if (!is_numeric($year))
 		{
@@ -171,7 +171,7 @@ class Calendar
 	 * @throws \Exception
 	 * @return array
 	 */
-	public static function getWorkingsByYear($year): array
+	protected static function getWorkingsByYear($year): array
 	{
 		if (!is_numeric($year))
 		{
@@ -190,7 +190,7 @@ class Calendar
 	 * @throws \Exception
 	 * @return array
 	 */
-	public static function getPreHolidaysByYear($year): array
+	protected static function getPreHolidaysByYear($year): array
 	{
 		if (!is_numeric($year))
 		{
@@ -209,7 +209,7 @@ class Calendar
 	 * @throws \Exception
 	 * @return array
 	 */
-	public static function getNoWorkingByYear($year): array
+	protected static function getNoWorkingByYear($year): array
 	{
 		if (!is_numeric($year))
 		{
