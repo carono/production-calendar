@@ -1,34 +1,42 @@
 {
-  "name": "webmasterskaya/production-calendar",
-  "description": "Production calendar of Russian Federation",
-  "license": "(MIT or GPL-3.0-or-later)",
-  "authors": [
-    {
-      "name": "Aleksandr Kasyanov",
-      "email": "info@carono.ru",
-      "homepage": "http://carono.ru"
-    },
-    {
-      "name": "Artem Vasilev",
-      "email": "dev@webmasterskaya.xyz",
-      "homepage": "https://webmasterskaya.xyz/"
-    }
-  ],
-  "require": {
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-dom": "*",
-    "ext-libxml": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "webmasterskaya\\ProductionCalendar\\": ""
-    }
-  },
-  "archive": {
-    "exclude": [
-      ".gitignore",
-      "test.php"
-    ]
-  }
+	"name": "webmasterskaya/production-calendar",
+	"description": "Production calendar of Russian Federation",
+	"license": "(MIT or GPL-3.0-or-later)",
+	"authors": [
+		{
+			"name": "Aleksandr Kasyanov",
+			"email": "info@carono.ru",
+			"homepage": "http://carono.ru"
+		},
+		{
+			"name": "Artem Vasilev",
+			"email": "dev@webmasterskaya.xyz",
+			"homepage": "https://webmasterskaya.xyz/"
+		}
+	],
+	"require": {
+		"ext-curl": "*",
+		"ext-json": "*",
+		"ext-dom": "*",
+		"ext-libxml": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Webmasterskaya\\ProductionCalendar\\": "src/"
+		},
+		"exclude-from-classmap": [
+			"/src/data/"
+		]
+	},
+	"scripts": {
+		"calendar-update": [
+			"Webmasterskaya\\ProductionCalendar\\Updater::execute"
+		]
+	},
+	"archive": {
+		"exclude": [
+			".gitignore",
+			"test.php"
+		]
+	}
 }
