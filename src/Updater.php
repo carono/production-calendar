@@ -115,6 +115,8 @@ class Updater
 
 		$uri = "https://www.consultant.ru/law/ref/calendar/proizvodstvennye/$year/";
 
+		$year = (int) $year;
+
 		$output = dirname(__FILE__) . '/' . ltrim(static::OUTPUT_PATH, '/');
 
 		$ch = curl_init($uri);
