@@ -151,4 +151,125 @@ final class CalendarTest extends TestCase
 		$this->assertFalse(Calendar::isWeekend('24.02.2020'));
 		$this->assertTrue(Calendar::isHoliday('24.02.2020'));
 	}
+
+	/**
+	 * Проверяем корректность возвращаемой текущей даты
+	 *
+	 * @throws \Exception
+	 * @testdox Корректное возврат текущей даты
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::date
+	 */
+	public function testDate()
+	{
+		$this->assertEquals(new \DateTime('20.08.2020'), Calendar::find('2020-08-20')->date());
+	}
+
+	/**
+	 * Проверяем корректность сдвига текущей даты на один день вперёд
+	 *
+	 * @throws \Exception
+	 * @testdox Корректный сдвиг текущей даты на один день вперёд
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::next
+	 */
+	public function testNext()
+	{
+		$this->assertEquals(new \DateTime('21.08.2020'), Calendar::find('2020-08-20')->next()->date());
+		$this->assertEquals(new \DateTime('01.01.2021'), Calendar::find('2020-12-31')->next()->date());
+	}
+
+	/**
+	 * Проверяем корректность сдвига текущей даты на один день назад
+	 *
+	 * @throws \Exception
+	 * @testdox Корректный сдвиг текущей даты на один день назад
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::prev
+	 */
+	public function testPrev()
+	{
+		$this->assertEquals(new \DateTime('19.08.2020'), Calendar::find('2020-08-20')->prev()->date());
+		$this->assertEquals(new \DateTime('31.12.2019'), Calendar::find('2020-01-01')->prev()->date());
+	}
+
+	/**
+	 * Проверяем корректность форматирования даты
+	 *
+	 * @throws \Exception
+	 * @testdox Корректное форматирование даты
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::format
+	 */
+	public function testFormat()
+	{
+		$this->assertEquals('2020-10-01', Calendar::find('01.10.2020')->format());
+		$this->assertEquals('01.10.2020', Calendar::find('2020-10-01')->format('d.m.Y'));
+	}
+
+	/**
+	 * Проверяем корректность форматирования даты в UNIX-timestamp
+	 *
+	 * @throws \Exception
+	 * @testdox Корректное форматирование даты в UNIX-timestamp
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::timestamp
+	 */
+	public function testTimestamp()
+	{
+		$this->assertEquals(1601510400, Calendar::find('01.10.2020')->timestamp());
+	}
+
+	/**
+	 * Проверяем корректность преобразования в строку
+	 *
+	 * @throws \Exception
+	 * @testdox Корректное преобразование в строку
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::__toString
+	 */
+	public function testToString()
+	{
+		$this->assertEquals('2020-10-01', (string) Calendar::find('01.10.2020'));
+	}
+
+	public function testGetHolidaysListByInterval()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testGetWorkingListByInterval()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testGetNoWorkingListByInterval()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testGetPreHolidayListByInterval()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testWorking()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testHoliday()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testPreHoliday()
+	{
+		// TODO: реализовать тест метода
+	}
+
+	public function testNoWorking()
+	{
+		// TODO: реализовать тест метода
+	}
 }
