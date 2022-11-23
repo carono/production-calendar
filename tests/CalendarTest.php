@@ -12,6 +12,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное создание и вызов синглтона
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::getInstance
 	 */
 	public function testCreatesAValidSingletonInstance()
 	{
@@ -27,6 +28,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное создание и вызов синглтона с указанием дат в разных форматах
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::find
 	 */
 	public function testCreatesAValidSingletonInstanceWithDate()
 	{
@@ -49,6 +51,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние предпраздничного дня
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isPreHoliday
 	 */
 	public function testCorrectDefinitionOfThePreHoliday()
 	{
@@ -64,6 +67,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние праздничного дня
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isHoliday
 	 */
 	public function testCorrectDefinitionOfTheHoliday()
 	{
@@ -77,6 +81,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние выходного дня
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isWeekend
 	 */
 	public function testCorrectDefinitionOfTheWeekend()
 	{
@@ -90,6 +95,7 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние нерабочего дня
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isNoWorking
 	 */
 	public function testCorrectDefinitionOfTheNoWorking()
 	{
@@ -104,6 +110,7 @@ final class CalendarTest extends TestCase
 	 * Проверяем корректность определния рабочего дня
 	 *
 	 * @testdox Корректное определние рабочего дня
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isWorking
 	 */
 	public function testCorrectDefinitionOfTheWorking()
 	{
@@ -120,6 +127,8 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние рабочего дня, признаного нерабочим
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isWorking
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isNoWorking
 	 */
 	public function testCorrectSimultaneousDefinitionOfTheWorkingAndNoWorking()
 	{
@@ -132,11 +141,13 @@ final class CalendarTest extends TestCase
 	 *
 	 * @throws \Exception
 	 * @testdox Корректное определние праздничного дня выпадающего на выходной
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isHoliday
+	 * @covers  \Webmasterskaya\ProductionCalendar\Calendar::isWeekend
 	 */
 	public function testCorrectSimultaneousDefinitionOfTheHolidayAndWeekend()
 	{
 		$this->assertTrue(Calendar::isHoliday('23.02.2020'));
-		$this->assertTrue(Calendar::isHoliday('23.02.2020'));
+		$this->assertTrue(Calendar::isWeekend('23.02.2020'));
 		$this->assertFalse(Calendar::isWeekend('24.02.2020'));
 		$this->assertTrue(Calendar::isHoliday('24.02.2020'));
 	}
