@@ -454,7 +454,7 @@ class Calendar
 	 * @throws \Exception
 	 * @return array
 	 */
-	public static function getHolidays(): array
+	protected static function getHolidays(): array
 	{
 		if (!static::$_instance)
 		{
