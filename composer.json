@@ -28,6 +28,11 @@
 			"/src/data/"
 		]
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Webmasterskaya\\ProductionCalendar\\Tests\\": "tests/"
+		}
+	},
 	"scripts": {
 		"calendar-update": [
 			"Webmasterskaya\\ProductionCalendar\\Updater::execute"
@@ -38,5 +43,8 @@
 			".gitignore",
 			"test.php"
 		]
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9"
 	}
 }
