@@ -9,9 +9,10 @@
 `composer require webmasterskaya\ProductionCalendar`
 
 И загрузите нужный класс
+
 ```php
-use webmasterskaya\ProductionCalendar\Calendar;
-use webmasterskaya\ProductionCalendar\Updater;
+
+
 ```
 
 Массив всех данных можно найти в json файле - **holidays.json**
