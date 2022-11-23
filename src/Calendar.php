@@ -248,6 +248,33 @@ class Calendar
 	}
 
 	/**
+	 * Находит и возвращает все рабочие дни в указанном промежутке дат в указанном формате
+	 *
+	 * @param   integer|string|\DateTime  $date_from  Начальная дата поиска
+	 * @param   integer|string|\DateTime  $date_to    Конечная дата поиска
+	 * @param   string|null               $format     Формат возвращаемых дат. см. https://www.php.net/manual/ru/datetime.format.php
+	 *
+	 * @throws \Exception
+	 * @return array
+	 */
+	public static function getWorkingListByInterval($date_from, $date_to, string $format = null): array
+	{
+		static::prepareDateInterval($date_from, $date_to);
+
+		$workingList = [];
+
+		$lastWorking    = Calendar::find($date_from)->working();
+		$workingList[] = $lastWorking->format($format);
+		while ($lastWorking->date() <= $date_to)
+		{
+			$lastWorking    = $lastWorking->next()->working();
+			$workingList[] = $lastWorking->format($format);
+		}
+
+		return $workingList;
+	}
+
+	/**
 	 * Подготавливает корректные даты начала и конца интервала
 	 *
 	 * @param   integer|string|\DateTime  $date_from  Начальная дата интервала
