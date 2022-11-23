@@ -302,6 +302,33 @@ class Calendar
 	}
 
 	/**
+	 * Находит и возвращает все предпраздничные дни в указанном промежутке дат в указанном формате
+	 *
+	 * @param   integer|string|\DateTime  $date_from  Начальная дата поиска
+	 * @param   integer|string|\DateTime  $date_to    Конечная дата поиска
+	 * @param   string|null               $format     Формат возвращаемых дат. см. https://www.php.net/manual/ru/datetime.format.php
+	 *
+	 * @throws \Exception
+	 * @return array
+	 */
+	public static function getPreHolidayListByInterval($date_from, $date_to, string $format = null): array
+	{
+		static::prepareDateInterval($date_from, $date_to);
+
+		$preHolidayList = [];
+
+		$lastPreHoliday   = Calendar::find($date_from)->preHoliday();
+		$preHolidayList[] = $lastPreHoliday->format($format);
+		while ($lastPreHoliday->date() <= $date_to)
+		{
+			$lastPreHoliday   = $lastPreHoliday->next()->preHoliday();
+			$preHolidayList[] = $lastPreHoliday->format($format);
+		}
+
+		return $preHolidayList;
+	}
+
+	/**
 	 * Подготавливает корректные даты начала и конца интервала
 	 *
 	 * @param   integer|string|\DateTime  $date_from  Начальная дата интервала
