@@ -263,15 +263,42 @@ class Calendar
 
 		$workingList = [];
 
-		$lastWorking    = Calendar::find($date_from)->working();
+		$lastWorking   = Calendar::find($date_from)->working();
 		$workingList[] = $lastWorking->format($format);
 		while ($lastWorking->date() <= $date_to)
 		{
-			$lastWorking    = $lastWorking->next()->working();
+			$lastWorking   = $lastWorking->next()->working();
 			$workingList[] = $lastWorking->format($format);
 		}
 
 		return $workingList;
+	}
+
+	/**
+	 * Находит и возвращает все нерабочие дни в указанном промежутке дат в указанном формате
+	 *
+	 * @param   integer|string|\DateTime  $date_from  Начальная дата поиска
+	 * @param   integer|string|\DateTime  $date_to    Конечная дата поиска
+	 * @param   string|null               $format     Формат возвращаемых дат. см. https://www.php.net/manual/ru/datetime.format.php
+	 *
+	 * @throws \Exception
+	 * @return array
+	 */
+	public static function getNoWorkingListByInterval($date_from, $date_to, string $format = null): array
+	{
+		static::prepareDateInterval($date_from, $date_to);
+
+		$noWorkingList = [];
+
+		$lastNoWorking   = Calendar::find($date_from)->noWorking();
+		$noWorkingList[] = $lastNoWorking->format($format);
+		while ($lastNoWorking->date() <= $date_to)
+		{
+			$lastNoWorking   = $lastNoWorking->next()->noWorking();
+			$noWorkingList[] = $lastNoWorking->format($format);
+		}
+
+		return $noWorkingList;
 	}
 
 	/**
