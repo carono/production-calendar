@@ -221,27 +221,18 @@ class Calendar
 	}
 
 	/**
-	 * Находит и возвращает все выходные дни в указанном промежутке дат
+	 * Находит и возвращает все выходные дни в указанном промежутке дат в указанном формате
 	 *
-	 * @param   integer|string|\DateTime  $date_from Начальная дата поиска
-	 * @param   integer|string|\DateTime  $date_to Конечная дата поиска
-	 * @param   string|null               $format Шаблон результирующих дат. см. https://www.php.net/manual/ru/datetime.format.php
+	 * @param   integer|string|\DateTime  $date_from  Начальная дата поиска
+	 * @param   integer|string|\DateTime  $date_to    Конечная дата поиска
+	 * @param   string|null               $format     Формат возвращаемых дат. см. https://www.php.net/manual/ru/datetime.format.php
 	 *
 	 * @throws \Exception
 	 * @return array
 	 */
 	public static function getHolidaysListByInterval($date_from, $date_to, string $format = null): array
 	{
-		$date_from = static::prepareDate($date_from);
-		$date_to   = static::prepareDate($date_to);
-
-		if ($date_from > $date_to)
-		{
-			$date_tmp  = $date_to;
-			$date_to   = $date_from;
-			$date_from = $date_tmp;
-			unset($date_tmp);
-		}
+		static::prepareDateInterval($date_from, $date_to);
 
 		$holidaysList = [];
 
@@ -254,6 +245,28 @@ class Calendar
 		}
 
 		return $holidaysList;
+	}
+
+	/**
+	 * Подготавливает корректные даты начала и конца интервала
+	 *
+	 * @param   integer|string|\DateTime  $date_from  Начальная дата интервала
+	 * @param   integer|string|\DateTime  $date_to    Конечная дата интервала
+	 *
+	 * @throws \Exception
+	 */
+	protected static function prepareDateInterval(&$date_from, &$date_to)
+	{
+		$date_from = static::prepareDate($date_from);
+		$date_to   = static::prepareDate($date_to);
+
+		if ($date_from > $date_to)
+		{
+			$date_tmp  = $date_to;
+			$date_to   = $date_from;
+			$date_from = $date_tmp;
+			unset($date_tmp);
+		}
 	}
 
 	/**
