@@ -150,14 +150,19 @@ class Updater
 		/** @var DOMElement $table_node */
 		foreach ($tables_nodes as $table_node)
 		{
+			// Дополнительная проверка на косяки, при выборке таблиц по классу
+			if (strpos($table_node->getAttribute('class'), 'cal') === false)
+			{
+				continue;
+			}
+
 			$m++;
 			$tds_nodes = $table_node->getElementsByTagName('td');
+			$month     = str_pad($m, 2, '0', STR_PAD_LEFT);
 
 			/** @var DOMElement $td_node */
 			foreach ($tds_nodes as $td_node)
 			{
-				$month = str_pad($m, 2, '0', STR_PAD_LEFT);
-
 				$day = str_pad(
 					preg_replace('/[\D]/', '', $td_node->textContent), 2,
 					'0',
