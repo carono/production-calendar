@@ -98,7 +98,7 @@ class Calendar
             $year = static::prepareDate($year)->format('Y');
         }
         $holidays = static::getHolidays();
-        return isset($holidays[$year]['workings']) ? $holidays[$year]['workings'] : [];
+        return isset($holidays[$year]['works']) ? $holidays[$year]['works'] : [];
     }
 
     /**
