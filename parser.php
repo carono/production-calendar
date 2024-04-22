@@ -32,10 +32,13 @@ foreach ($content->find('.cal') as $table) {
         if (in_array(date('w', strtotime($date)), ['6', '0'], true)) {
             $idx = 'weekend';
         }
-
+	
         $dates[$year][$idx][] = $date;
         if (pq($td)->hasClass('preholiday')) {
             $dates[$year]['preholidays'][] = $date;
+        }
+		if (pq($td)->hasClass('work')) {
+			$dates[$year]['works'][] = $date;
         }
     }
 }
